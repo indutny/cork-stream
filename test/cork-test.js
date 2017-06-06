@@ -112,4 +112,33 @@ describe('cork-stream', () => {
     assert.equal(timeout, 1);
     assert.equal(close, 1);
   });
+
+  it('should not uncork on destroyed socket', (cb) => {
+    const fake = new PassThrough();
+    const cork = new CorkStream(fake);
+
+    let once = false;
+    fake.cork = () => {
+      // No-op
+    };
+
+    fake.uncork = () => {
+      assert(!once);
+      once = true;
+    };
+
+    cork.write('hello');
+    cork.write(' ');
+
+    setImmediate(() => {
+      fake.destroyed = true;
+      cork.write('world');
+      cork.end('!');
+
+      setImmediate(() => {
+        assert(once);
+        cb();
+      });
+    });
+  });
 });
