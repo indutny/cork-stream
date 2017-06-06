@@ -141,4 +141,26 @@ describe('cork-stream', () => {
       });
     });
   });
+
+  it('should not end destroyed socket', (cb) => {
+    const fake = new PassThrough();
+    const cork = new CorkStream(fake);
+
+    fake.end = () => {
+      assert(false);
+    };
+
+    cork.write('hello');
+    cork.write(' ');
+
+    setImmediate(() => {
+      fake.destroyed = true;
+      cork.write('world');
+      cork.end('!');
+
+      setImmediate(() => {
+        cb();
+      });
+    });
+  });
 });
