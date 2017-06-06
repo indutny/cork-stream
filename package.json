@@ -1,0 +1,31 @@
+{
+  "name": "cork-stream",
+  "version": "1.0.0",
+  "description": "Duplex stream that automatically corks",
+  "main": "lib/cork-stream.js",
+  "scripts": {
+    "lint": "eslint lib/*.js test/*.js",
+    "test": "mocha --reporter=spec test/*-test.js && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/indutny/cork-stream.git"
+  },
+  "keywords": [
+    "cork",
+    "stream",
+    "write",
+    "auto"
+  ],
+  "author": "Fedor Indutny <fedor@indutny.com> (http://darksi.de/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indutny/cork-stream/issues"
+  },
+  "homepage": "https://github.com/indutny/cork-stream#readme",
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2"
+  },
+  "dependencies": {}
+}
