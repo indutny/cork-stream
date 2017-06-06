@@ -96,4 +96,20 @@ describe('cork-stream', () => {
       cork.end('!');
     });
   });
+
+  it('should propagate `close`/`timeout` events', () => {
+    const fake = new PassThrough();
+    const cork = new CorkStream(fake);
+
+    let timeout = 0;
+    cork.on('timeout', () => timeout++);
+    let close = 0;
+    cork.on('close', () => close++);
+
+    fake.emit('timeout');
+    fake.emit('close');
+
+    assert.equal(timeout, 1);
+    assert.equal(close, 1);
+  });
 });
