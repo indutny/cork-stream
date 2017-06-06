@@ -1,6 +1,6 @@
 {
   "name": "cork-stream",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Duplex stream that automatically corks",
   "main": "lib/cork-stream.js",
   "scripts": {
