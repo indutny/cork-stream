@@ -68,10 +68,7 @@ describe('cork-stream', () => {
 
       cork: () => log.push('cork'),
       uncork: () => log.push('uncork'),
-      write: (data, enc, cb) => {
-        log.push(data.toString());
-        cb(null);
-      },
+      write: data => log.push(data.toString()),
       end: () => {
         log.push('end');
 
