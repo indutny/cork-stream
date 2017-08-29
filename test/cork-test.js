@@ -97,6 +97,47 @@ describe('cork-stream', () => {
     });
   });
 
+  it('should run custom cork/uncork', (cb) => {
+    const log = [];
+    const fake = {
+      on: () => {},
+      once: () => {},
+
+      write: data => log.push(data.toString()),
+      end: () => {
+        log.push('end');
+
+        assert.deepEqual(log, [
+          'cork',
+          'uncork',
+          'hello',
+          ' ',
+          'cork',
+          'uncork',
+          'world',
+          '!',
+          'end'
+        ]);
+        cb();
+      }
+    };
+
+    const cork = new CorkStream(fake, {
+      cork: () => log.push('cork'),
+      uncork: (_, callback) => {
+        log.push('uncork');
+        process.nextTick(callback);
+      },
+    });
+
+    cork.write('hello');
+    cork.write(' ');
+    setImmediate(() => {
+      cork.write('world');
+      cork.end('!');
+    });
+  });
+
   it('should propagate `close`/`timeout` events', () => {
     const fake = new PassThrough();
     const cork = new CorkStream(fake);
